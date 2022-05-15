@@ -26,6 +26,7 @@ public class TaskService {
     }
 
     public List<Task> findAll() {
+
         return new ArrayList<>( taskCache.values());
     }
     public Task save(Task task) {
@@ -34,7 +35,23 @@ public class TaskService {
         return task;
     }
 
+    public Task update(Long id, Task task) {
+        if (!exists(id)) {
+            throw new RuntimeException("Task with id = " + id + " does not exist.");
+        }
 
+        Task mTask = taskCache.get(id);
+        mTask.setName(task.getName());
+
+        return mTask;
+    }
+
+    public void delete(Long id) {
+        taskCache.remove(id);
+    }
+
+    public boolean exists(Long id) {
+        return taskCache.containsKey(id);
+    }
 
 }
-
