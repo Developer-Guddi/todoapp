@@ -3,18 +3,20 @@ package com.jaza.todoapp.restcontroller;
 import com.jaza.todoapp.model.Task;
 import com.jaza.todoapp.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
 public class TaskRestController {
+
+//    @Qualifier
     @Autowired
-     TaskService taskService;
+    TaskService taskService;
 
  //   @Autowired
 //    public TaskRestController(TaskService toDoService) {
@@ -37,6 +39,7 @@ public class TaskRestController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/getAllTasks")
     private List<Task> getAllTasks() {
+
         return taskService.findAll();
     }
 
@@ -51,7 +54,8 @@ public class TaskRestController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable("id") Long id, @RequestBody Task task){
-        task= taskService.update(id, task);
+        task.setId(id);
+        task= taskService.update(task);
         return ResponseEntity.ok(task);
     }
 
