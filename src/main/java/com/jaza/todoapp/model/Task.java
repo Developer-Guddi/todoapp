@@ -1,9 +1,20 @@
 package com.jaza.todoapp.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table
 public class Task {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "TASKNAME")
     private String name;
+
+//    public Task() {
+//
+//    }
 
     public Task() {
     }

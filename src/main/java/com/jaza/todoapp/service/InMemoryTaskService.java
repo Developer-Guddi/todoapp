@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
+//@Service
 public class InMemoryTaskService implements TaskService {
     private final Map<Long, Task> taskCache = new HashMap<>();
     private Long taskCounter = 1L;
