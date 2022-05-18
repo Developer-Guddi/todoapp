@@ -5,13 +5,12 @@ import com.jaza.todoapp.model.Task;
 import com.jaza.todoapp.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
+@Transactional(readOnly = true)
 public class PersistentTaskService implements TaskService {
 
     @Autowired
@@ -27,17 +26,21 @@ public class PersistentTaskService implements TaskService {
     }
 
     @Override
+    @Transactional
     public Task save(Task task) {
         return taskRepository.save(task);
     }
 
     @Override
+    @Transactional
     public Task update(Task task) {
-        taskRepository.findById(task.getId()).orElseThrow(() ->new RuntimeException("Task with this taskId not present"));
-        return taskRepository.save(task);
+        Task mTask = taskRepository.findById(task.getId()).orElseThrow(() ->new RuntimeException("Task with this taskId not present"));
+        mTask.setName(task.getName());
+        return mTask;
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         Task taskToBeDeleted =taskRepository.findById(id).orElseThrow(() ->new RuntimeException("Task with this taskId not present"));
         taskRepository.delete(taskToBeDeleted);
